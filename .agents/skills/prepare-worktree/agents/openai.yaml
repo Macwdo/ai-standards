@@ -1,0 +1,7 @@
+interface:
+  display_name: "Prepare Worktree"
+  short_description: "Explicit-only standalone worktree setup"
+  default_prompt: "Use $prepare-worktree to create a fresh feature branch and worktree without syncing the base branch first."
+
+policy:
+  allow_implicit_invocation: false
