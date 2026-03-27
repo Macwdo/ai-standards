@@ -7,7 +7,7 @@ description: Finalize local git work safely after implementation. Use when Codex
 
 ## Overview
 
-Finish a coding task without leaving git cleanup half-done. Review the diff, stage intentionally, commit with a high-signal message, merge the feature branch into the repository's default base branch, push that base branch, and remove the linked worktree only after the remote update is confirmed.
+Finish a coding task without leaving git cleanup half-done. Review the diff, check whether `README.md` should be updated, stage intentionally, commit with a high-signal message, merge the feature branch into the repository's default base branch, push that base branch, and remove the linked worktree only after the remote update is confirmed.
 
 ## Workflow
 
@@ -17,24 +17,28 @@ Finish a coding task without leaving git cleanup half-done. Review the diff, sta
    - Notice unrelated changes and avoid staging them unless the user explicitly asks.
    - Determine the current branch with `git branch --show-current`.
    - Determine the default base branch by checking `origin/HEAD` first and falling back to local `main` or `master`.
-2. Stage only the intended files:
+2. Check whether `README.md` should be updated before saving:
+   - Consider whether the task changes setup, usage, workflow, commands, behavior, or documented project structure.
+   - If the change affects what a user or contributor needs to know, update `README.md` in the same task.
+   - If no README change is needed, make that a conscious decision before continuing.
+3. Stage only the intended files:
    - Prefer explicit paths over blind `git add .` when unrelated files may exist.
    - Include new files that are part of the task.
    - Re-check with `git status --short`.
-3. Create the commit:
+4. Create the commit:
    - Use a concise imperative subject.
    - Prefer a scoped conventional-style message when the change supports it, such as `feat: add save-finish skill` or `chore: update save-finish workflow`.
    - Keep the subject focused on the user-visible or repository-relevant outcome.
-4. Merge the feature branch into the base branch:
+5. Merge the feature branch into the base branch:
    - Refuse to proceed if the current branch is already the base branch.
    - Capture the feature branch name before switching branches.
    - Switch to the main worktree or repository root so the target linked worktree can be removed later.
    - Check out the detected base branch and update it from the remote when appropriate.
    - Merge the feature branch into the base branch locally.
-5. Push the base branch:
+6. Push the base branch:
    - Push the updated base branch to `origin`.
    - Stop immediately if the merge or push fails.
-6. Clean up the linked worktree only after a successful push:
+7. Clean up the linked worktree only after a successful push:
    - Confirm the target path is a linked worktree rather than the main worktree.
    - Run the removal from the repository root or another safe directory outside the target worktree.
    - Remove it with `git worktree remove <path>`.
@@ -65,6 +69,7 @@ Review:
 git status --short --branch
 git diff --stat
 git diff
+git diff -- README.md
 git branch --show-current
 git symbolic-ref refs/remotes/origin/HEAD
 git worktree list
