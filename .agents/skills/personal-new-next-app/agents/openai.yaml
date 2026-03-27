@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personal New Next App"
+  short_description: "Bootstraps Next.js apps with your preferred stack."
+  default_prompt: "Use $personal-new-next-app to start a Next.js app with shadcn/ui, axios, React Query, Zustand, React Hook Form, and Zod."
