@@ -1,9 +1,11 @@
 ---
 name: prepare-worktree
-description: Create a fresh git worktree and feature branch before implementation tasks. Use when starting coding work, bug fixes, refactors, tests, or any prompt that will modify files so the task begins in an isolated worktree.
+description: Create a fresh git worktree and feature branch without performing base-branch sync or pull steps. Use only when the user explicitly asks for `$prepare-worktree` or specifically requests direct worktree creation as a standalone action.
 ---
 
 # Prepare Worktree
+
+Use this skill only for explicit `$prepare-worktree` requests. For normal start-of-task setup that should return to the base branch and pull first, use `start-work` instead.
 
 ## Workflow
 

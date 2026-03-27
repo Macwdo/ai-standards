@@ -1,0 +1,7 @@
+interface:
+  display_name: "Start Work"
+  short_description: "Sync base branch, then create a worktree"
+  default_prompt: "Use $start-work to sync the base branch and create a fresh feature worktree for this task."
+
+policy:
+  allow_implicit_invocation: true
