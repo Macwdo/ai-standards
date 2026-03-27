@@ -1,0 +1,12 @@
+{
+  "name": "codex-notify-hookify-example",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Example Codex notify hook implemented with hookify",
+  "scripts": {
+    "test:sample": "node ./notify-hook.js '{\"type\":\"agent-turn-complete\",\"thread-id\":\"thread-123\",\"turn-id\":\"turn-456\",\"cwd\":\"/tmp/project\",\"client\":\"codex-tui\",\"input-messages\":[\"Add a hook example\"],\"last-assistant-message\":\"Implemented the example hook.\"}'"
+  },
+  "dependencies": {
+    "hookify": "^0.0.1"
+  }
+}
