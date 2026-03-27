@@ -1,6 +1,6 @@
 ---
 name: personal-new-next-app
-description: Create a new Next.js app with the preferred frontend stack: shadcn/ui, axios, react-hook-form, zod, @hookform/resolvers, @tanstack/react-query, and zustand. Use when starting a new Next project with pnpm and the app should be bootstrapped through the shadcn CLI instead of manually assembling package.json.
+description: "Create a new Next.js app with the preferred frontend stack: shadcn/ui, axios, react-hook-form, zod, @hookform/resolvers, @tanstack/react-query, and zustand. Use when starting a new Next project with pnpm and the app should be bootstrapped through the shadcn CLI instead of manually assembling package.json."
 user-invocable: true
 allowed-tools: Bash(pnpm dlx shadcn@latest *), Bash(pnpm add *), Bash(pnpm install), Bash(pnpm run *)
 ---
