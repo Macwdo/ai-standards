@@ -1,6 +1,16 @@
 {
   "version": 1,
   "skills": {
+    "django-expert": {
+      "source": "vintasoftware/django-ai-plugins",
+      "sourceType": "github",
+      "computedHash": "a6b8c224017570496d688a526fcbea74025a01cc90d9afb0977bfcc1f76af306"
+    },
+    "django-tdd": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "0bd7c1d912bf59aabae27d2d658482e0abfb278825e21456ca99ff3b9d87fc48"
+    },
     "shadcn": {
       "source": "shadcn/ui",
       "sourceType": "github",
