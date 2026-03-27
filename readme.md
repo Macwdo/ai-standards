@@ -6,6 +6,8 @@ This repo includes a working example of a Codex notification hook powered by `ho
 - Codex support used here: `notify = [...]` in `~/.codex/config.toml`
 - Notes: the public Codex config currently documents `notify` for end-of-turn hooks; broader `codex_hooks` support exists as an under-development feature flag in the current CLI
 
-## Included skills
+## Included agent assets
 
-Project skills live in `.agents/skills/`, including imported generic skills and personal conventions for this repo.
+Project skills live in `.agents/skills/`.
+
+Project subagents live in `.agents/subagents/`.

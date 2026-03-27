@@ -1,6 +1,6 @@
 # Skills Naming Convention
 
-Use `.agents/skills/` as the single place for project skills.
+Use `.agents/skills/` only for project skills.
 
 ## Skill layout
 
@@ -32,3 +32,9 @@ Examples:
 - `.agents/skills/personal-new-model/SKILL.md`
 
 This keeps generic skills easy to spot and makes personal conventions clearly identifiable.
+
+## Not a skill
+
+If a capability is primarily a specialist agent persona rather than a reusable workflow, do not place it in `.agents/skills/`.
+
+Use `.agents/subagents/` instead.
