@@ -1,0 +1,7 @@
+interface:
+  display_name: "Start Work"
+  short_description: "Sync the default branch and open a safe feature worktree"
+  default_prompt: "Use $start-work to sync the repository default branch from the primary worktree, create or reuse a linked feature worktree, and do the implementation there instead of the main worktree."
+
+policy:
+  allow_implicit_invocation: true
