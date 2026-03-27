@@ -1,0 +1,4 @@
+interface:
+  display_name: "Save Finish"
+  short_description: "Wrap up git work with safe finalization steps"
+  default_prompt: "Use $save-finish to stage the intended changes, create a clear commit, push the branch, and clean up the linked worktree."
