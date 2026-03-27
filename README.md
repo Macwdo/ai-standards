@@ -15,6 +15,22 @@ The detailed naming rules already live in:
 - `.agents/skills/README.md`
 - `.agents/subagents/README.md`
 
+## Install all local skills
+
+Run the installer from the repository root:
+
+```bash
+python3 scripts/install-all-skills.py
+```
+
+By default it installs every directory in `.agents/skills/` that contains `SKILL.md` into `${CODEX_HOME:-~/.codex}/skills`.
+
+Use `--overwrite` to replace already installed copies:
+
+```bash
+python3 scripts/install-all-skills.py --overwrite
+```
+
 ## How I use this repo
 
 This is a maintenance workspace, not a product app. The normal loop is:
