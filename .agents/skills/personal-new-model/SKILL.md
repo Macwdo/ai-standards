@@ -1,3 +1,8 @@
+---
+name: personal-new-model
+description: Create a new Django model following the project's model conventions, field patterns, admin registration, and related app structure.
+---
+
 # New Model
 
 Create a new Django model: $ARGUMENTS

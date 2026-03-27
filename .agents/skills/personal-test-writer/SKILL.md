@@ -1,3 +1,8 @@
+---
+name: personal-test-writer
+description: Write tests for a described feature or endpoint using the project's pytest, DRF, helpers, naming, and mocking conventions.
+---
+
 # Test Writer
 
 Write tests for the described feature or endpoint: $ARGUMENTS

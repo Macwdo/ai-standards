@@ -1,3 +1,8 @@
+---
+name: personal-new-service
+description: Create a new service function or module following the project's function-based service, transaction, dependency-injection, and exception conventions.
+---
+
 # New Service
 
 Create a new service function or module: $ARGUMENTS

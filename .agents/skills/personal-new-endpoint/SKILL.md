@@ -1,3 +1,8 @@
+---
+name: personal-new-endpoint
+description: Add a new API endpoint to an existing app using the project's APIView, ViewSet action, serializer, and service-layer patterns.
+---
+
 # New Endpoint
 
 Add a new API endpoint to an existing app. Description: $ARGUMENTS
