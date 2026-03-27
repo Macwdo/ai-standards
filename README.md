@@ -94,6 +94,10 @@ $personal-test-writer Add tests for the new serializer behavior.
 ```
 
 ```text
+$personal-django-tdd Add DRF endpoint tests using helper-backed fixtures and no factories.
+```
+
+```text
 $save-finish Commit the docs changes, merge into the default branch, push, and remove the worktree.
 ```
 
