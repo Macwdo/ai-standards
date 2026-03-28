@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "agent-browser": {
+      "source": "vercel-labs/agent-browser",
+      "sourceType": "github",
+      "computedHash": "0eafe0971692cf8fcecb75f955595821452a835791d315db738f89ee49063a34"
+    },
     "django-expert": {
       "source": "vintasoftware/django-ai-plugins",
       "sourceType": "github",
@@ -10,6 +15,11 @@
       "source": "affaan-m/everything-claude-code",
       "sourceType": "github",
       "computedHash": "0bd7c1d912bf59aabae27d2d658482e0abfb278825e21456ca99ff3b9d87fc48"
+    },
+    "portless": {
+      "source": "vercel-labs/portless",
+      "sourceType": "github",
+      "computedHash": "426aef66b0615ed31a6fe30d5c64322a4dc924087eb03cf897a646e2918443a8"
     },
     "shadcn": {
       "source": "shadcn/ui",
