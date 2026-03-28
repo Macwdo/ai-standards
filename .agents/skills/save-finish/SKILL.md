@@ -1,13 +1,13 @@
 ---
 name: save-finish
-description: Finalize local git work safely after implementation. Use when Codex needs to inspect changed files, stage only the intended changes, create a clear commit message, merge the feature branch into the default base branch, push the base branch, and remove the linked worktree after the push succeeds.
+description: Finalize local git work safely after implementation. Use when Codex needs to inspect changed files, stage only the intended changes, create a clear commit message, merge the feature branch into the default base branch, and push the base branch while leaving worktree cleanup to the dedicated cleanup workflow.
 ---
 
 # Save Finish
 
 ## Overview
 
-Finish a coding task without leaving git cleanup half-done. Review the diff, check whether `README.md` should be updated, stage intentionally, commit with a high-signal message, merge the feature branch into the repository's default base branch, push that base branch, and remove the linked worktree only after the remote update is confirmed.
+Finish a coding task without leaving the repository in an ambiguous state. Review the diff, check whether `README.md` should be updated, stage intentionally, commit with a high-signal message, merge the feature branch into the repository's default base branch, and push that base branch. Leave linked worktree cleanup to the dedicated `$cleanup-worktrees` workflow after the push succeeds.
 
 ## Workflow
 
@@ -32,17 +32,16 @@ Finish a coding task without leaving git cleanup half-done. Review the diff, che
 5. Merge the feature branch into the base branch:
    - Refuse to proceed if the current branch is already the base branch.
    - Capture the feature branch name before switching branches.
-   - Switch to the main worktree or repository root so the target linked worktree can be removed later.
+   - Switch to the main worktree or repository root before checking out the base branch.
    - Check out the detected base branch and update it from the remote when appropriate.
    - Merge the feature branch into the base branch locally.
 6. Push the base branch:
    - Push the updated base branch to `origin`.
    - Stop immediately if the merge or push fails.
-7. Clean up the linked worktree only after a successful push:
-   - Confirm the target path is a linked worktree rather than the main worktree.
-   - Run the removal from the repository root or another safe directory outside the target worktree.
-   - Remove it with `git worktree remove <path>`.
-   - Keep the branch unless the user explicitly asks to delete it.
+7. Hand off any worktree cleanup to `$cleanup-worktrees` after a successful push:
+   - Do not remove the linked worktree as part of `$save-finish`.
+   - Treat cleanup as a separate step so audit and removal decisions stay centralized in the cleanup workflow.
+   - If the user wants the worktree removed, direct that request to `$cleanup-worktrees`.
 
 ## Commit Rules
 
@@ -56,9 +55,8 @@ Finish a coding task without leaving git cleanup half-done. Review the diff, che
 - Do not commit unrelated changes just to make the worktree clean.
 - Do not merge if the current branch cannot be cleanly merged into the base branch.
 - Do not treat `main` as universal; detect the repository's default base branch and support either `main` or `master`.
-- Do not remove a dirty worktree.
-- Do not remove the main worktree.
 - Do not delete local or remote branches unless the user explicitly asks.
+- Do not remove any worktree from `$save-finish`; delegate that task to `$cleanup-worktrees`.
 - If commit, merge, or push fails, stop at the failure, report it, and leave the worktree intact.
 
 ## Handy Commands
@@ -88,14 +86,14 @@ git merge --no-ff "$feature_branch"
 git push origin "$base_branch"
 ```
 
-Clean up the linked worktree from outside it:
+Then, if cleanup is requested, hand off to `$cleanup-worktrees`:
 
 ```bash
-git worktree remove /absolute/path/to/worktree
+python3 /home/macwdo/Codes/ai-standards/.agents/skills/cleanup-worktrees/scripts/audit_worktrees.py
 ```
 
 ## Example Requests
 
-- "Use `$save-finish` to commit the skill changes, merge them into `master`, push, and remove this worktree."
+- "Use `$save-finish` to commit the skill changes, merge them into `master`, and push. Leave the worktree for `$cleanup-worktrees`."
 - "Use `$save-finish` to stage only the docs I changed and create a clean commit."
 - "Use `$save-finish` to wrap up this feature branch by merging it into the default base branch without deleting the branch itself."
