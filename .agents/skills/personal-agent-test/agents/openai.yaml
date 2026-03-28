@@ -1,0 +1,7 @@
+interface:
+  display_name: "Personal Agent Test"
+  short_description: "Test a worktree app through portless with agent-browser"
+  default_prompt: "Use $personal-agent-test to verify this worktree implementation by starting the app through portless and testing it with agent-browser."
+
+policy:
+  allow_implicit_invocation: true
