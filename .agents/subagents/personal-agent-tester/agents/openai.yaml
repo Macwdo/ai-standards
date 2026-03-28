@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personal Agent Tester"
+  short_description: "Verify a linked worktree app through portless with agent-browser"
+  default_prompt: "Spawn the tester subagent to run this linked worktree through portless and verify the requested flow with agent-browser."
