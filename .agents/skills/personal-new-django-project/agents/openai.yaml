@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personal New Django Project"
+  short_description: "Bootstraps Django projects from your template."
+  default_prompt: "Use $personal-new-django-project to start a new Django project from my SSH cookiecutter template repo."
