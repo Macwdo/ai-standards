@@ -16,6 +16,11 @@
       "sourceType": "github",
       "computedHash": "0bd7c1d912bf59aabae27d2d658482e0abfb278825e21456ca99ff3b9d87fc48"
     },
+    "emulate": {
+      "source": "vercel-labs/emulate",
+      "sourceType": "github",
+      "computedHash": "b9a78848434af3a9e0c6b21796680e6feb959c4d76eb87f66faef04343441af1"
+    },
     "portless": {
       "source": "vercel-labs/portless",
       "sourceType": "github",
