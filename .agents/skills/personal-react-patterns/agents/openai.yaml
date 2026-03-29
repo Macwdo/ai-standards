@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personal React Patterns"
+  short_description: "Applies your default React implementation patterns."
+  default_prompt: "Use $personal-react-patterns to implement this React/Next.js feature with Zod, React Hook Form, React Query, and Zustand."
