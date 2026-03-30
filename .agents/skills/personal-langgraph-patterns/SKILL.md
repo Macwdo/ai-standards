@@ -1,9 +1,9 @@
 ---
-name: langgraph-service-nodes
+name: personal-langgraph-patterns
 description: Build or refactor LangGraph workflows in Python 3.11+ where each node is a thin adapter around a domain service and updates typed state immutably. Use when working with LangGraph, LangChain, ChatOpenAI, clean architecture, reusable node factories, TypedDict graph state, service-backed orchestration, or when converting business logic out of graph definitions and into composable services.
 ---
 
-# LangGraph Service Nodes
+# Personal LangGraph Patterns
 
 Use this skill to standardize LangGraph code around a service-backed node pattern.
 
