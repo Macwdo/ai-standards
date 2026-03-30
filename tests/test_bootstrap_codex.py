@@ -25,10 +25,10 @@ class BootstrapCodexTests(unittest.TestCase):
             "---\nname: sample-skill\n---\nSample\n",
             encoding="utf-8",
         )
-        (root / ".agents" / "subagents" / "personal-agent-tester" / "agents").mkdir(
+        (root / ".agents" / "skills" / "personal-agent-tester" / "agents").mkdir(
             parents=True
         )
-        (root / ".agents" / "subagents" / "personal-agent-tester" / "AGENT.md").write_text(
+        (root / ".agents" / "skills" / "personal-agent-tester" / "SKILL.md").write_text(
             textwrap.dedent(
                 """\
                 ---

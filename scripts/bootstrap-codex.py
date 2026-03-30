@@ -125,10 +125,10 @@ def strip_frontmatter(text: str) -> str:
 
 
 def load_agent_instructions(repo_root: Path) -> str:
-    agent_path = repo_root / ".agents" / "subagents" / "personal-agent-tester" / "AGENT.md"
-    if not agent_path.is_file():
-        raise FileNotFoundError(f"Tester subagent source not found: {agent_path}")
-    return strip_frontmatter(agent_path.read_text(encoding="utf-8"))
+    skill_path = repo_root / ".agents" / "skills" / "personal-agent-tester" / "SKILL.md"
+    if not skill_path.is_file():
+        raise FileNotFoundError(f"Tester skill source not found: {skill_path}")
+    return strip_frontmatter(skill_path.read_text(encoding="utf-8"))
 
 
 def escape_basic_string(value: str) -> str:

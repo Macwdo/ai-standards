@@ -6,8 +6,8 @@ I use it to keep reusable workflows, personal coding conventions, and specialist
 
 ## What lives here
 
-- `.agents/skills/` contains reusable skills.
-- `.agents/subagents/` contains specialist agent personas that should not be modeled as skills.
+- `.agents/skills/` contains reusable skills, including the `personal-agent-tester` testing workflow.
+- `.agents/subagents/` contains any remaining specialist agent personas that should not be modeled as skills.
 - `skills-lock.json` tracks installed skill sources.
 
 The detailed naming rules already live in:
@@ -27,6 +27,7 @@ By default it:
 
 - installs every directory in `.agents/skills/` that contains `SKILL.md` into `${CODEX_HOME:-~/.codex}/skills`
 - removes the old installed `personal-agent-test` skill if it still exists
+- derives the global `tester` role instructions from `.agents/skills/personal-agent-tester/SKILL.md`
 - installs the global `tester` subagent role into `${CODEX_HOME:-~/.codex}/agents/tester.toml`
 - updates `${CODEX_HOME:-~/.codex}/config.toml` to enable multi-agent mode and register the `tester` role
 
@@ -124,7 +125,7 @@ $save-finish Commit the docs changes, merge into the default branch, push, and r
 
 ### Use the tester subagent from Codex
 
-After bootstrapping, ask Codex naturally to spawn or use the global `tester` role.
+After bootstrapping, ask Codex naturally to spawn or use the global `tester` role. Its instructions are sourced from `.agents/skills/personal-agent-tester/SKILL.md`.
 
 Examples:
 
