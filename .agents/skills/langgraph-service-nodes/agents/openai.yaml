@@ -1,7 +1,0 @@
-interface:
-  display_name: "LangGraph Service Nodes"
-  short_description: "Build service-backed LangGraph workflows"
-  default_prompt: "Use $langgraph-service-nodes to build or refactor a LangGraph workflow where nodes call domain services and update typed state immutably."
-
-policy:
-  allow_implicit_invocation: true

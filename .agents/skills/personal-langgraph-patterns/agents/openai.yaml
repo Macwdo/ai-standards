@@ -1,0 +1,7 @@
+interface:
+  display_name: "Personal LangGraph Patterns"
+  short_description: "Build service-backed LangGraph workflows"
+  default_prompt: "Use $personal-langgraph-patterns to build or refactor a LangGraph workflow where nodes call domain services and update typed state immutably."
+
+policy:
+  allow_implicit_invocation: true
