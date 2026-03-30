@@ -26,6 +26,7 @@ python3 scripts/bootstrap-codex.py
 By default it:
 
 - installs every directory in `.agents/skills/` that contains `SKILL.md` into `${CODEX_HOME:-~/.codex}/skills`
+- generates `agents/openai.yaml` with a title-cased `display_name` for personal skills that do not already define UI metadata
 - removes the old installed `personal-agent-test` skill if it still exists
 - derives the global `tester` role instructions from `.agents/skills/personal-agent-tester/SKILL.md`
 - installs the global `tester` subagent role into `${CODEX_HOME:-~/.codex}/agents/tester.toml`
@@ -46,6 +47,8 @@ If you only want the repo skills without the global tester role, use the narrowe
 ```bash
 python3 scripts/install-all-skills.py
 ```
+
+That installer applies the same personal-skill display-name generation rule.
 
 ## How I use this repo
 

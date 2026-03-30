@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
+import sys
 import tempfile
 import textwrap
 import tomllib
@@ -11,6 +12,9 @@ import unittest
 def load_bootstrap_module():
     repo_root = Path(__file__).resolve().parents[1]
     module_path = repo_root / "scripts" / "bootstrap-codex.py"
+    script_dir = str(module_path.parent)
+    if script_dir not in sys.path:
+        sys.path.insert(0, script_dir)
     spec = spec_from_file_location("bootstrap_codex", module_path)
     module = module_from_spec(spec)
     assert spec is not None and spec.loader is not None
@@ -59,6 +63,24 @@ class BootstrapCodexTests(unittest.TestCase):
             self.assertTrue(config["features"]["multi_agent"])
             self.assertEqual(config["agents"]["tester"]["config_file"], "agents/tester.toml")
             self.assertIn("Installed tester role config", "\n".join(messages))
+
+    def test_bootstrap_generates_display_metadata_for_personal_skill_when_missing(self):
+        module = load_bootstrap_module()
+        with tempfile.TemporaryDirectory() as repo_dir, tempfile.TemporaryDirectory() as codex_dir:
+            repo_root = self.create_repo(Path(repo_dir))
+            codex_home = Path(codex_dir)
+
+            module.bootstrap(repo_root, codex_home, overwrite=True)
+
+            metadata_path = (
+                codex_home
+                / "skills"
+                / "personal-agent-tester"
+                / "agents"
+                / "openai.yaml"
+            )
+            self.assertTrue(metadata_path.is_file())
+            self.assertIn('display_name: "Personal Agent Tester"', metadata_path.read_text())
 
     def test_bootstrap_preserves_existing_config_and_creates_backup(self):
         module = load_bootstrap_module()

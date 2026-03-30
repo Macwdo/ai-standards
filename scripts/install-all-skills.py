@@ -6,8 +6,9 @@ from __future__ import annotations
 import argparse
 import os
 from pathlib import Path
-import shutil
 import sys
+
+from skill_install import find_skills, install_skill
 
 
 def parse_args() -> argparse.Namespace:
@@ -36,30 +37,6 @@ def parse_args() -> argparse.Namespace:
 def default_dest() -> Path:
     codex_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")).expanduser()
     return codex_home / "skills"
-
-
-def find_skills(skills_root: Path) -> list[Path]:
-    if not skills_root.is_dir():
-        raise FileNotFoundError(f"Skills directory not found: {skills_root}")
-
-    skills = []
-    for entry in sorted(skills_root.iterdir()):
-        if entry.is_dir() and (entry / "SKILL.md").is_file():
-            skills.append(entry)
-    if not skills:
-        raise FileNotFoundError(f"No skills found under: {skills_root}")
-    return skills
-
-
-def install_skill(source: Path, destination_root: Path, overwrite: bool) -> str:
-    destination = destination_root / source.name
-    if destination.exists():
-        if not overwrite:
-            return f"Skipped {source.name}: already exists at {destination}"
-        shutil.rmtree(destination)
-
-    shutil.copytree(source, destination)
-    return f"Installed {source.name} -> {destination}"
 
 
 def main() -> int:
