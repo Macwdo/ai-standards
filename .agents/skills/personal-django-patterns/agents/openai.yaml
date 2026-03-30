@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personal Django Patterns"
+  short_description: "Repo-specific Django build patterns"
+  default_prompt: "Use $personal-django-patterns to add or update a Django model, endpoint, service, and tests in this repo."
