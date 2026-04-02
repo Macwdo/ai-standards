@@ -21,6 +21,11 @@
       "sourceType": "github",
       "computedHash": "b9a78848434af3a9e0c6b21796680e6feb959c4d76eb87f66faef04343441af1"
     },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "computedHash": "063a0e6448123cd359ad0044cc46b0e490cc7964d45ef4bb9fd842bd2ffbca67"
+    },
     "portless": {
       "source": "vercel-labs/portless",
       "sourceType": "github",
