@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personal Python Patterns"
+  short_description: "Repo-first Python coding defaults"
+  default_prompt: "Use $personal-python-patterns to write or refactor Python code with my default structure, typing, boundary, and testing patterns."
