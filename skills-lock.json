@@ -61,6 +61,11 @@
       "sourceType": "github",
       "computedHash": "063a0e6448123cd359ad0044cc46b0e490cc7964d45ef4bb9fd842bd2ffbca67"
     },
+    "landing-page-copywriter": {
+      "source": "onewave-ai/claude-skills",
+      "sourceType": "github",
+      "computedHash": "f7c7ceb8d99be73eb3e84c6281f1cd56121342f36c94b1d5d2835e4273598ab1"
+    },
     "portless": {
       "source": "vercel-labs/portless",
       "sourceType": "github",
