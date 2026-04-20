@@ -127,7 +127,7 @@ When the model changes, also consider:
 - `admin.py`
 - `apps.py` if missing repo-standard config
 - migrations
-- serializers, views, and services that expose the model
+- serializers, selectors, views, and services that expose the model
 - tests covering the user-visible behavior
 
 Run:
