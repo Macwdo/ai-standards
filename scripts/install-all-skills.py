@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
-"""Install every local project skill into a Codex skills directory."""
+"""Install every local project skill into a Codex or OpenCode skills directory."""
 
 from __future__ import annotations
 
 import argparse
-import os
 from pathlib import Path
 import sys
 
-from skill_install import find_skills, install_skill
+from skill_install import default_skills_destination, install_skills, normalize_cli
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Install all skills from .agents/skills into a Codex skills directory."
+        description="Install all skills from .agents/skills into a Codex or OpenCode skills directory."
     )
     parser.add_argument(
         "--repo-root",
@@ -22,9 +21,15 @@ def parse_args() -> argparse.Namespace:
         help="Repository root containing .agents/skills (defaults to this script's repo).",
     )
     parser.add_argument(
+        "--cli",
+        choices=("codex", "opencode"),
+        default="codex",
+        help="CLI target to install for (defaults to codex).",
+    )
+    parser.add_argument(
         "--dest",
         type=Path,
-        help="Destination skills directory (defaults to $CODEX_HOME/skills or ~/.codex/skills).",
+        help="Destination skills directory (defaults to the selected CLI global skills directory).",
     )
     parser.add_argument(
         "--overwrite",
@@ -32,31 +37,20 @@ def parse_args() -> argparse.Namespace:
         help="Replace already installed skills in the destination.",
     )
     return parser.parse_args()
-
-
-def default_dest() -> Path:
-    codex_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")).expanduser()
-    return codex_home / "skills"
-
-
 def main() -> int:
     args = parse_args()
     repo_root = args.repo_root.expanduser().resolve()
-    skills_root = repo_root / ".agents" / "skills"
-    destination_root = (args.dest or default_dest()).expanduser().resolve()
+    cli = normalize_cli(args.cli)
+    destination_root = (args.dest or default_skills_destination(cli)).expanduser().resolve()
 
     try:
-        skills = find_skills(skills_root)
-    except FileNotFoundError as exc:
+        messages = install_skills(repo_root, cli, args.overwrite, destination_root)
+    except (FileNotFoundError, ValueError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
 
-    destination_root.mkdir(parents=True, exist_ok=True)
-
-    for skill_dir in skills:
-        print(install_skill(skill_dir, destination_root, args.overwrite))
-
-    print(f"Installed {len(skills)} skill(s) into {destination_root}")
+    for message in messages:
+        print(message)
     return 0
 
 

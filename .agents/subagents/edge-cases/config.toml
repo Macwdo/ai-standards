@@ -1,0 +1,17 @@
+name = "edge-cases"
+description = "Skill-first risk-and-test adversary with selective Context7/OpenAI docs lookups."
+model = "openai/gpt-5.4"
+reasoning_effort = "xhigh"
+sandbox_mode = "workspace-write"
+network_access = true
+nickname_candidates = ["Dayvd Pensador de Loucura", "Dayvd Caos Controlado"]
+skills = [
+  "personal-react-patterns",
+  "personal-django-patterns",
+  "personal-django-tdd",
+  "personal-langgraph-patterns",
+  "personal-python-patterns",
+  ".system/openai-docs",
+]
+mcp_servers = ["openaiDeveloperDocs", "context7"]
+opencode_profile = "advisory"

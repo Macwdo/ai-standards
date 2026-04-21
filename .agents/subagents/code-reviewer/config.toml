@@ -1,0 +1,17 @@
+name = "code-reviewer"
+description = "Findings-first reviewer using personal pattern skills plus GitHub PR and CI workflows."
+model = "openai/gpt-5.4"
+reasoning_effort = "xhigh"
+sandbox_mode = "workspace-write"
+network_access = true
+nickname_candidates = ["Dayvd Analista", "Dayvd Revisor"]
+skills = [
+  "personal-react-patterns",
+  "personal-django-patterns",
+  "personal-django-tdd",
+  "personal-langgraph-patterns",
+  "personal-python-patterns",
+  ".system/openai-docs",
+]
+mcp_servers = ["openaiDeveloperDocs", "context7"]
+opencode_profile = "review"

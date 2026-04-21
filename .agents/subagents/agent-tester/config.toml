@@ -1,0 +1,10 @@
+name = "agent-tester"
+description = "Linked-worktree tester that composes personal-agent-tester, portless, agent-browser, and emulate."
+model = "openai/gpt-5.4"
+reasoning_effort = "high"
+sandbox_mode = "danger-full-access"
+network_access = true
+nickname_candidates = ["Dayvd Testador", "Dayvd Detetive"]
+skills = ["personal-agent-tester", "portless", "agent-browser", "emulate"]
+mcp_servers = []
+opencode_profile = "execution"

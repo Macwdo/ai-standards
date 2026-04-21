@@ -29,9 +29,7 @@ class BootstrapCodexTests(unittest.TestCase):
             "---\nname: sample-skill\n---\nSample\n",
             encoding="utf-8",
         )
-        (root / ".agents" / "skills" / "personal-agent-tester" / "agents").mkdir(
-            parents=True
-        )
+        (root / ".agents" / "skills" / "personal-agent-tester").mkdir(parents=True)
         (root / ".agents" / "skills" / "personal-agent-tester" / "SKILL.md").write_text(
             textwrap.dedent(
                 """\
@@ -45,24 +43,52 @@ class BootstrapCodexTests(unittest.TestCase):
             ),
             encoding="utf-8",
         )
+        (root / ".agents" / "subagents" / "code-reviewer").mkdir(parents=True)
+        (root / ".agents" / "subagents" / "code-reviewer" / "config.toml").write_text(
+            textwrap.dedent(
+                """\
+                name = "code-reviewer"
+                description = "Review code carefully."
+                model = "openai/gpt-5.4"
+                reasoning_effort = "high"
+                sandbox_mode = "workspace-write"
+                network_access = true
+                nickname_candidates = ["Reviewer"]
+                skills = ["personal-agent-tester"]
+                mcp_servers = []
+                opencode_profile = "review"
+                """
+            ),
+            encoding="utf-8",
+        )
+        (root / ".agents" / "subagents" / "code-reviewer" / "AGENT.md").write_text(
+            "Review the code and report issues.\n",
+            encoding="utf-8",
+        )
         return root
 
-    def test_bootstrap_installs_skills_and_tester_role(self):
+    def test_bootstrap_installs_skills_and_subagents(self):
         module = load_bootstrap_module()
         with tempfile.TemporaryDirectory() as repo_dir, tempfile.TemporaryDirectory() as codex_dir:
             repo_root = self.create_repo(Path(repo_dir))
             codex_home = Path(codex_dir)
-            (codex_home / "skills" / module.LEGACY_SKILL_NAME).mkdir(parents=True)
+            (codex_home / "skills" / "personal-agent-test").mkdir(parents=True)
+            (codex_home / "agents" / "tester.toml").parent.mkdir(parents=True)
+            (codex_home / "agents" / "tester.toml").write_text("legacy\n", encoding="utf-8")
 
             messages = module.bootstrap(repo_root, codex_home, overwrite=True)
 
             self.assertTrue((codex_home / "skills" / "sample-skill" / "SKILL.md").is_file())
-            self.assertFalse((codex_home / "skills" / module.LEGACY_SKILL_NAME).exists())
-            self.assertTrue((codex_home / "agents" / "tester.toml").is_file())
+            self.assertFalse((codex_home / "skills" / "personal-agent-test").exists())
+            self.assertTrue((codex_home / "agents" / "code_reviewer.toml").is_file())
+            self.assertFalse((codex_home / "agents" / "tester.toml").exists())
             config = tomllib.loads((codex_home / "config.toml").read_text(encoding="utf-8"))
             self.assertTrue(config["features"]["multi_agent"])
-            self.assertEqual(config["agents"]["tester"]["config_file"], "agents/tester.toml")
-            self.assertIn("Installed tester role config", "\n".join(messages))
+            self.assertEqual(
+                config["agents"]["code_reviewer"]["config_file"],
+                "agents/code_reviewer.toml",
+            )
+            self.assertIn("Installed code_reviewer", "\n".join(messages))
 
     def test_bootstrap_generates_display_metadata_for_personal_skill_when_missing(self):
         module = load_bootstrap_module()
@@ -121,7 +147,7 @@ class BootstrapCodexTests(unittest.TestCase):
             module.bootstrap(repo_root, codex_home, overwrite=True)
 
             config = tomllib.loads((codex_home / "config.toml").read_text(encoding="utf-8"))
-            self.assertEqual(config["agents"]["tester"]["description"], module.ROLE_DESCRIPTION)
+            self.assertEqual(config["agents"]["code_reviewer"]["description"], "Review code carefully.")
             self.assertEqual(config["agents"]["max_threads"], 6)
             self.assertTrue(config["features"]["multi_agent"])
 

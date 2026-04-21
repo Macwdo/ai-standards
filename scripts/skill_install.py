@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 import shutil
 
@@ -20,6 +21,31 @@ DISPLAY_NAME_OVERRIDES = {
 }
 OPENAI_METADATA_FILENAMES = ("openai.yaml", "openai.yml")
 PERSONAL_SKILL_PREFIX = "personal-"
+LEGACY_CODEX_SKILL_NAMES = ("personal-agent-test",)
+
+
+def default_codex_home() -> Path:
+    return Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")).expanduser()
+
+
+def default_opencode_home() -> Path:
+    return Path(
+        os.environ.get("OPENCODE_CONFIG_DIR", Path.home() / ".config" / "opencode")
+    ).expanduser()
+
+
+def normalize_cli(cli: str) -> str:
+    normalized = cli.strip().lower()
+    if normalized not in {"codex", "opencode"}:
+        raise ValueError(f"Unsupported CLI target: {cli}")
+    return normalized
+
+
+def default_skills_destination(cli: str) -> Path:
+    normalized = normalize_cli(cli)
+    if normalized == "codex":
+        return default_codex_home() / "skills"
+    return default_opencode_home() / "skills"
 
 
 def find_skills(skills_root: Path) -> list[Path]:
@@ -72,3 +98,31 @@ def install_skill(source: Path, destination_root: Path, overwrite: bool) -> str:
     shutil.copytree(source, destination)
     ensure_personal_skill_display_metadata(destination)
     return f"Installed {source.name} -> {destination}"
+
+
+def cleanup_legacy_codex_skills(destination_root: Path) -> list[str]:
+    messages: list[str] = []
+    for legacy_name in LEGACY_CODEX_SKILL_NAMES:
+        legacy_path = destination_root / legacy_name
+        if legacy_path.exists():
+            shutil.rmtree(legacy_path)
+            messages.append(f"Removed legacy installed skill -> {legacy_path}")
+    return messages
+
+
+def install_skills(
+    repo_root: Path,
+    cli: str,
+    overwrite: bool,
+    destination_root: Path | None = None,
+) -> list[str]:
+    skills_root = repo_root / ".agents" / "skills"
+    destination = (destination_root or default_skills_destination(cli)).expanduser().resolve()
+    skills = find_skills(skills_root)
+    destination.mkdir(parents=True, exist_ok=True)
+
+    messages = [install_skill(skill_dir, destination, overwrite) for skill_dir in skills]
+    if normalize_cli(cli) == "codex":
+        messages.extend(cleanup_legacy_codex_skills(destination))
+    messages.append(f"Installed {len(skills)} skill(s) into {destination}")
+    return messages

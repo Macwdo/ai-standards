@@ -115,6 +115,23 @@ class SkillInstallTests(unittest.TestCase):
             self.assertTrue(metadata_path.is_file())
             self.assertIn('display_name: "Personal New Service"', metadata_path.read_text())
 
+    def test_install_skills_supports_opencode_destination(self):
+        module = load_module("skill_install", "scripts/skill_install.py")
+        with tempfile.TemporaryDirectory() as repo_dir, tempfile.TemporaryDirectory() as dest_dir:
+            repo_root = Path(repo_dir)
+            create_skill(repo_root, "personal-new-model")
+
+            messages = module.install_skills(
+                repo_root=repo_root,
+                cli="opencode",
+                overwrite=True,
+                destination_root=Path(dest_dir),
+            )
+
+            metadata_path = Path(dest_dir) / "personal-new-model" / "agents" / "openai.yaml"
+            self.assertTrue(metadata_path.is_file())
+            self.assertIn("Installed 1 skill(s)", "\n".join(messages))
+
 
 if __name__ == "__main__":
     unittest.main()

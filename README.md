@@ -1,54 +1,102 @@
 # AI Standards
 
-This repository is the working home for my Codex skills and subagents.
+This repository is the working home for my reusable skills and subagents for both Codex and OpenCode.
 
-I use it to keep reusable workflows, personal coding conventions, and specialist agent setups in one place so I can come back, refine them, and use them in future sessions without rebuilding the same context each time.
+I use it to keep workflows, personal coding conventions, and specialist agent setups in one place so I can install them globally on a machine and reuse them across sessions.
 
 ## What lives here
 
-- `.agents/skills/` contains reusable skills, including the `personal-agent-tester` testing workflow.
-- `.agents/subagents/` contains any remaining specialist agent personas that should not be modeled as skills.
-- `skills-lock.json` tracks installed skill sources.
+- `.agents/skills/` contains reusable skills.
+- `.agents/subagents/` contains installable specialist agents.
+- `skills-lock.json` tracks imported skill sources.
 
-The detailed naming rules already live in:
+The detailed naming rules live in:
 
 - `.agents/skills/README.md`
 - `.agents/subagents/README.md`
 
-## Bootstrap Codex On A New PC
+## Install Everything
 
-Run the bootstrap script from the repository root:
+Run the unified installer from the repository root:
 
 ```bash
-python3 scripts/bootstrap-codex.py
+python3 scripts/install-assets.py
 ```
 
-By default it:
+It will ask:
 
-- installs every directory in `.agents/skills/` that contains `SKILL.md` into `${CODEX_HOME:-~/.codex}/skills`
-- generates `agents/openai.yaml` with a title-cased `display_name` for personal skills that do not already define UI metadata
-- removes the old installed `personal-agent-test` skill if it still exists
-- derives the global `tester` role instructions from `.agents/skills/personal-agent-tester/SKILL.md`
-- installs the global `tester` subagent role into `${CODEX_HOME:-~/.codex}/agents/tester.toml`
-- updates `${CODEX_HOME:-~/.codex}/config.toml` to enable multi-agent mode and register the `tester` role
+- which CLI you are using: `Codex` or `OpenCode`
+- whether to install `skills`, `agents`, or `both`
+- whether to overwrite existing installed copies
 
-The bootstrap script creates a backup of `config.toml` before rewriting it.
+You can also run it non-interactively:
 
-Use `--overwrite` to replace already installed copies:
+```bash
+python3 scripts/install-assets.py --cli codex --assets both --overwrite
+```
+
+```bash
+python3 scripts/install-assets.py --cli opencode --assets both --overwrite
+```
+
+## Global Install Locations
+
+Codex installs into:
+
+- `${CODEX_HOME:-~/.codex}/skills`
+- `${CODEX_HOME:-~/.codex}/agents`
+- `${CODEX_HOME:-~/.codex}/config.toml`
+
+OpenCode installs into:
+
+- `${OPENCODE_CONFIG_DIR:-~/.config/opencode}/skills`
+- `${OPENCODE_CONFIG_DIR:-~/.config/opencode}/agents`
+- `${OPENCODE_CONFIG_DIR:-~/.config/opencode}/opencode.json`
+
+The installers back up the global config file before rewriting it.
+
+## Targeted Installers
+
+Install only skills:
+
+```bash
+python3 scripts/install-all-skills.py --cli codex --overwrite
+```
+
+```bash
+python3 scripts/install-all-skills.py --cli opencode --overwrite
+```
+
+Bootstrap Codex with both skills and agents:
 
 ```bash
 python3 scripts/bootstrap-codex.py --overwrite
 ```
 
-## Install Only Local Skills
+## Repo Layout
 
-If you only want the repo skills without the global tester role, use the narrower installer:
+Every skill should live in its own directory and expose `SKILL.md`:
 
-```bash
-python3 scripts/install-all-skills.py
+```text
+.agents/skills/<skill-name>/SKILL.md
 ```
 
-That installer applies the same personal-skill display-name generation rule.
+Every subagent should live in its own directory and expose:
+
+```text
+.agents/subagents/<agent-name>/AGENT.md
+.agents/subagents/<agent-name>/config.toml
+```
+
+`AGENT.md` is the shared instruction source.
+
+`config.toml` holds the install metadata used to render Codex TOML agents and OpenCode markdown agents.
+
+Optional UI metadata may be added under:
+
+```text
+.agents/subagents/<agent-name>/agents/openai.yaml
+```
 
 ## How I use this repo
 
@@ -56,33 +104,7 @@ This is a maintenance workspace, not a product app. The normal loop is:
 
 1. Add a new skill or subagent when I notice a workflow I repeat often.
 2. Update an existing skill or subagent when my standards, tools, or preferred prompts change.
-3. Bootstrap the repo onto a machine so Codex can reuse those workflows and specialist roles across sessions.
-
-## Skill conventions
-
-Every skill should live in its own directory and expose `SKILL.md` as its entrypoint:
-
-```text
-.agents/skills/<skill-name>/SKILL.md
-```
-
-Generic or imported skills keep a regular name:
-
-```text
-.agents/skills/<skill-name>/SKILL.md
-```
-
-Personal conventions use the `personal-` prefix:
-
-```text
-.agents/skills/personal-<skill-name>/SKILL.md
-```
-
-Use a subagent instead of a skill when the capability is mainly a specialist persona rather than a reusable workflow:
-
-```text
-.agents/subagents/<agent-name>/AGENT.md
-```
+3. Install the repo globally on a machine so Codex or OpenCode can reuse those workflows and specialist roles.
 
 ## Typical workflow
 
@@ -92,56 +114,41 @@ Use a subagent instead of a skill when the capability is mainly a specialist per
 2. Add a `SKILL.md` file with the workflow, rules, and examples.
 3. Keep the name short, descriptive, and aligned with the existing naming conventions.
 
-### Update a skill
-
-1. Open the existing `SKILL.md`.
-2. Tighten the instructions based on real usage.
-3. Keep the skill focused on one repeatable job.
-
 ### Add a subagent
 
 1. Create a new directory under `.agents/subagents/`.
-2. Add an `AGENT.md` file with the specialist role instructions.
-3. Add optional UI metadata under `agents/openai.yaml`.
+2. Add an `AGENT.md` file with the shared specialist instructions.
+3. Add a `config.toml` file with install metadata.
+4. Add optional UI metadata under `agents/openai.yaml` when needed.
 
-### Use a skill from Codex
+### Use a skill
 
-Mention the skill in the request so Codex loads and follows it.
-
-Examples:
-
-```text
-$start-work Add a new Django endpoint for invoice exports.
-```
-
-```text
-$personal-test-writer Add tests for the new serializer behavior.
-```
-
-```text
-$personal-django-tdd Add DRF endpoint tests using helper-backed fixtures and no factories.
-```
-
-```text
-$save-finish Commit the docs changes, merge into the default branch, push, and remove the worktree.
-```
-
-### Use the tester subagent from Codex
-
-After bootstrapping, ask Codex naturally to spawn or use the global `tester` role. Its instructions are sourced from `.agents/skills/personal-agent-tester/SKILL.md`.
+Mention the skill naturally so the active CLI can load and use it.
 
 Examples:
 
 ```text
-Spawn the tester subagent to run pnpm dev in this linked worktree and verify the login flow.
+Use the start-work skill to create a fresh worktree for this bug fix.
 ```
 
 ```text
-Use the tester role to start this worktree through portless and check that the settings form saves.
+Use personal-django-tdd to add DRF endpoint tests with helper-backed fixtures.
 ```
 
-Use `/agent` to inspect or continue work in the spawned tester thread.
+### Use a subagent
+
+After installing the repo globally, ask Codex or OpenCode to use one of the installed agents.
+
+Examples:
+
+```text
+Use the code-reviewer subagent to review these changes and return findings first.
+```
+
+```text
+Use the agent-tester subagent to start this linked worktree through portless and verify the login flow.
+```
 
 ## Goal
 
-The point of this repo is consistency. Instead of re-explaining my preferences on every task, I can encode them once as skills and subagents, keep improving them, and let Codex reuse them across projects and sessions.
+The point of this repo is consistency. Instead of re-explaining my preferences on every task, I can encode them once as skills and subagents, keep improving them, and install them globally for Codex or OpenCode reuse.

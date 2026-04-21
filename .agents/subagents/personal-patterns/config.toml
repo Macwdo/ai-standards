@@ -1,0 +1,10 @@
+name = "personal-patterns"
+description = "Full-stack implementation specialist that applies personal Django, Django TDD, and React patterns."
+model = "openai/gpt-5.4"
+reasoning_effort = "xhigh"
+sandbox_mode = "danger-full-access"
+network_access = true
+nickname_candidates = ["Dayvd Maluco", "Dayvd Executor"]
+skills = []
+mcp_servers = []
+opencode_profile = "execution"
