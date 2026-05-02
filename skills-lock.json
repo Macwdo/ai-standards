@@ -51,6 +51,11 @@
       "sourceType": "github",
       "computedHash": "0bd7c1d912bf59aabae27d2d658482e0abfb278825e21456ca99ff3b9d87fc48"
     },
+    "emil-design-eng": {
+      "source": "emilkowalski/skill",
+      "sourceType": "github",
+      "computedHash": "8bdf9e4e6de7a4969147bf4828a4ad2c5aacd9fba4b690b250a85e0467ca387d"
+    },
     "emulate": {
       "source": "vercel-labs/emulate",
       "sourceType": "github",
